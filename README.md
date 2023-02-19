@@ -1,7 +1,20 @@
-# Vue 3 + Vite
+# Frontend
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is an example project of a minimal frontend app that works with [socket.io server](https://socket.io/).
 
-## Recommended IDE Setup
+## Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Install dependencies
+
+```sh
+yarn install
+```
+
+Update the `.env` file according to your setup(optional).
+
+## Usage
+
+1. Login
+2. After successful login the app should display "Connected to socket server"
+3. Trigger notifications
+4. Check devtools' console to see received socket io events
