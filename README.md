@@ -12,6 +12,12 @@ yarn install
 
 Update the `.env` file according to your setup(optional).
 
+Start the app
+
+```sh
+yarn dev
+```
+
 ## Usage
 
 1. Login
