@@ -6,17 +6,36 @@ import Login from './components/Login.vue'
 const token = ref(localStorage.getItem('token'))
 const profile = ref()
 const connected = ref(false)
+const socket = ref()
 const isLoggedIn = computed(() => token.value != null)
+
+const wsConnect = async () => {
+  try {
+    socket.value = await connect(token.value)
+    connected.value = true
+
+    socket.value.on('notification', event => {
+      console.log('[notification]', event)
+    })
+  } catch (error) {
+    console.error(error);
+    alert('Unable to connect to socket server. See devtools')
+  }
+}
 
 const handleLogin = (payload) => {
   token.value = payload.jwt
   profile.value = payload.user
   localStorage.setItem('token', payload.jwt)
+  wsConnect()
 }
 
 const logout = () => {
   token.value = null
   profile.value = null
+  localStorage.removeItem('token')
+  socket.value.disconnect()
+  connected.value = false
 }
 
 onMounted(async () => {
@@ -24,16 +43,7 @@ onMounted(async () => {
     return
   }
 
-  try {
-    const socket = await connect(token.value)
-    connected.value = true
-
-    socket.on('notification', event => {
-      console.log('[notification]', event)
-    })
-  } catch (error) {
-    console.error(error);
-  }
+  wsConnect()
 })
 </script>
 
@@ -59,7 +69,9 @@ onMounted(async () => {
       Logout
     </button>
     <hr class="my-4">
-    <p class="text-white bg-green-600 rounded px-4">Connected to socket server</p>
+    <p class="text-white rounded px-4" :class="connected ? 'bg-green-600' : 'bg-gray-400'">
+      {{ connected ? 'Connected to socket server' : 'Not connected to socket server' }}
+    </p>
   </section>
 </template>
 

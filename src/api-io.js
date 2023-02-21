@@ -8,8 +8,8 @@ export const connect = (authToken) => {
     }
   })
 
-  return new Promise((resolve, _reject) => {
+  return new Promise((resolve, reject) => {
     socket.on('connect', () => resolve(socket))
-    socket.on('connect_error', e => console.warn(e))
+    socket.on('connect_error', e => reject(e))
   })
 }
