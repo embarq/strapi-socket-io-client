@@ -8,6 +8,7 @@ const profile = ref()
 const connected = ref(false)
 const socket = ref()
 const isLoggedIn = computed(() => token.value != null)
+const data = ref([])
 
 const wsConnect = async () => {
   try {
@@ -16,6 +17,7 @@ const wsConnect = async () => {
 
     socket.value.on('notification', event => {
       console.log('[notification]', event)
+      data.value.push(event)
     })
   } catch (error) {
     console.error(error);
@@ -72,6 +74,11 @@ onMounted(async () => {
     <p class="text-white rounded px-4" :class="connected ? 'bg-green-600' : 'bg-gray-400'">
       {{ connected ? 'Connected to socket server' : 'Not connected to socket server' }}
     </p>
+    <ul class="mt-4">
+      <li v-for="item of data" class="border-t border-gray-200 py-2">
+        <pre class="max-w-sm overflow-x-auto">{{ JSON.stringify(item, null,2) }}</pre>
+      </li>
+    </ul>
   </section>
 </template>
 
